@@ -4,7 +4,7 @@ state("Kena-Win64-Shipping") {
 }
 
 isLoading {
-    if (current.isLoading1 != 0x0 || current.isLoading2 == 0xFFFFFFFF) {
+    if (current.isLoading1 == 0xFFFFFFFF || current.isLoading2 != 0x0) {
         return true;
     } else {
         return false;
