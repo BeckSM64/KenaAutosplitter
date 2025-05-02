@@ -3,7 +3,7 @@ The ASL in this repository aim to remove load times for speedruns of the game Ke
 
 # Load Remover
 The load remover still needs testing, but seems to work. To try it yourself, follow these steps:
-- Download the ```kenaLoadRemover.asl``` file
+- Download the ```kenaLoadRemover.asl``` file (click the green code button then download zip)
 - In LiveSplit, edit your layout and add a ```Scriptable Auto Splitter``` element
 - Double click the element after you add it and set the script path to asl file you downloaded
 - Set your Timer element to Game Time
