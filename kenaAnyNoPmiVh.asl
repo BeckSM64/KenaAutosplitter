@@ -1,110 +1,49 @@
 state("Kena-Win64-Shipping") {
-    long isLoading: 0x05E93B90, 0x2F8;
-    long gainControlOfKena: 0x5BA7AB4; // 7FF6 568A 7AB4
-    string35 sproutString: 0x060E8848, 0xD0, 0x130, 0x20B5; // Looking for BP_00_02_ToshiAppear_Checkpoint_End
-    string35 dashString: 0x060E8848, 0xD0, 0x130, 0x20AD; // Looking for BP_HiddenCheckpoint_PostDashAbility
-    // string35 maskMakerString: 0x060E8848, 0xD0, 0x130, 0x2148; // Looking for W03.Relic.Mask
-    byte255 maskMakerByteArray: 0x060E8848, 0xD0, 0x130, 0x2000; // Looking for W03.Relic.Mask
-    string255 maskMakerString2: 0x060E8848, 0xD0, 0x130, 0x2000; // Looking for W03.Relic.Mask
-    string35 warriorString: 0x060E8848, 0xD0, 0x130, 0x21EF; // Looking for BP_HiddenCheckpoint6_2
-    // string35 gorgeString: 0x060E8848, 0xD0, 0x130, 0x20A1; // Looking for BP_WarpShrine_W1_Ascent
-    string35 gorgeString: 0x060E8848, 0xD0, 0x130, 0x2196; // Looking for BP_WarpShrine_W1_Ascent
-    string35 startingString: 0x060E8848, 0xD0, 0x130, 0x20B3; // Looking for BP_StartingCheckpoint
+    byte255 cutsceneFilenameAddress: 0x060E8848, 0x100, 0x88, 0;
+    byte255 tutorialCutsceneFilenameAddress: 0x05BA3930, 0x10, 0x88, 0;
 }
 
 init {
-    vars.didGameStart = false;
-    vars.didSplitSprout = false;
-    vars.didSplitDash = false;
-    vars.didSplitMaskMaker = false;
-    vars.didSplitWarrior = false;
-    vars.didSplitTarosTree = false;
-
-    // Used to see if the game started yet
-    vars.preGameLoad = 0x0600000012;
-    vars.postGameLoad = 0x0900000018;
-}
-
-start {
-
-    // Start timer
-    if (!vars.didGameStart) {
-        // if (current.gainControlOfKena == vars.postGameLoad) {
-        //     vars.didGameStart = true;
-        //     return true;
-        // }
-        if (current.startingString != null) {
-            if (current.startingString.ToString() == "BP_StartingCheckpoint") {
-                vars.didGameStart = true;
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-onReset {
-    vars.didGameStart = false;
-    vars.didSplitSprout = false;
-    vars.didSplitDash = false;
-    vars.didSplitMaskMaker = false;
-    vars.didSplitWarrior = false;
-    vars.didSplitTarosTree = false;
-}
-
-update {
-    if (current.startingString != null) {
-        print(current.startingString.ToString());
-    }
-}
-
-isLoading {
-    if (current.isLoading == 0xFFFFFFFF) {
-        return true;
-    } else {
-        return false;
-    }
+    vars.sproutCutsceneFilename = "57-00-30-00-5F-00-52-00-6F-00-74-00-50-00-61-00-72-00-61-00-64-00-65-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32"; // W0_RotParade_PC.bk2
+    vars.dashAbilityFilename = "57-00-33-00-5F-00-44-00-61-00-73-00-68-00-41-00-62-00-69-00-6C-00-69-00-74-00-79-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32-00"; // W3_DashAbility_PC.bk2
+    vars.toshiFilename = "57-00-33-00-5F-00-54-00-6F-00-73-00-68-00-69-00-44-00-65-00-66-00-65-00-61-00-74-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32-00"; // W3_ToshiDefeat_PC.bk2
+    vars.gameCompleteFilename = "57-00-33-00-5F-00-45-00-6E-00-64-00-47-00-61-00-6D-00-65-00-5F-00-50-00-43-00"; // W3_EndGame
+    vars.bowTutorialFilename = "42-00-6F-00-77-00-41-00-62-00-69-00-6C-00-69-00-74-00-79-00-5F-00-54-00-75-00-74-00-6F-00-72-00-69-00-61-00-6C-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32-00"; // BowAbility_Tutorial_PC.bk2
 }
 
 split {
-
     // Sprout
-    if (!vars.didSplitSprout && current.sproutString == "BP_00_02_ToshiAppear_Checkpoint_End") {
-        vars.didSplitSprout = true;
-        return true;
-    }
-
-    // Dash
-    if (!vars.didSplitDash && current.dashString == "BP_HiddenCheckpoint_PostDashAbility") {
-        vars.didSplitDash = true;
-        return true;
-    }
-
-    // Mask Maker
-    // if (!vars.didSplitMaskMaker && current.maskMakerString == "W03.Relic.Mask") {
-    //     vars.didSplitMaskMaker = true;
-    //     return true;
-    // }
-    // 5730332E52656C69632E4D61736B
-
-    // Mask Maker
-    if (!vars.didSplitMaskMaker && current.maskMakerByteArray != null) {
-        if (BitConverter.ToString(current.maskMakerByteArray).Contains("57-30-33-2E-52-65-6C-69-63-2E-4D-61-73-6B")) {
-            vars.didSplitMaskMaker = true;
+    if (old.cutsceneFilenameAddress != null) {
+        if (BitConverter.ToString(old.cutsceneFilenameAddress).Contains(vars.sproutCutsceneFilename) && (current.cutsceneFilenameAddress == null || !BitConverter.ToString(current.cutsceneFilenameAddress).Contains(vars.sproutCutsceneFilename))) {
             return true;
         }
     }
 
-    // Warrior
-    if (!vars.didSplitWarrior && current.warriorString == "BP_HiddenCheckpoint6_2") {
-        vars.didSplitWarrior = true;
-        return true;
+    // Dash
+    if (old.cutsceneFilenameAddress != null) {
+        if (BitConverter.ToString(old.cutsceneFilenameAddress).Contains(vars.dashAbilityFilename) && (current.cutsceneFilenameAddress == null || !BitConverter.ToString(current.cutsceneFilenameAddress).Contains(vars.dashAbilityFilename))) {
+            return true;
+        }
     }
 
-    // Taro's Tree
-    if (!vars.didSplitTarosTree && current.gorgeString == "BP_WarpShrine_W1_Ascent") {
-        vars.didSplitTarosTree = true;
-        return true;
+    // Bow
+    if (old.tutorialCutsceneFilenameAddress != null) {
+        if (BitConverter.ToString(old.tutorialCutsceneFilenameAddress).Contains(vars.bowTutorialFilename) && (current.tutorialCutsceneFilenameAddress == null || !BitConverter.ToString(current.tutorialCutsceneFilenameAddress).Contains(vars.bowTutorialFilename))) {
+            return true;
+        }
+    }
+
+    // Toshi
+    if (old.cutsceneFilenameAddress != null) {
+        if (BitConverter.ToString(old.cutsceneFilenameAddress).Contains(vars.toshiFilename) && (current.cutsceneFilenameAddress == null || !BitConverter.ToString(current.cutsceneFilenameAddress).Contains(vars.toshiFilename))) {
+            return true;
+        }
+    }
+
+    // End Game
+    if (old.cutsceneFilenameAddress != null) {
+        if (BitConverter.ToString(current.cutsceneFilenameAddress).Contains(vars.gameCompleteFilename)) {
+            return true;
+        }
     }
 }
-
