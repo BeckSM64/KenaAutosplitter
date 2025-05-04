@@ -3,7 +3,7 @@ state("Kena-Win64-Shipping") {
     long startGameFromSave: 0x5BA7AB4;
     byte255 cutsceneFilenameAddress: 0x060E8848, 0x100, 0x88, 0;
     byte255 tutorialCutsceneFilenameAddress: 0x05BA3930, 0x10, 0x88, 0;
-    string23 relicString: 0x05F0C2B0, 0, 0x308, 0x40, 0x120, 0x58, 0x98; // ACH_RELIC_INCENSE, ACH_RELIC_VILLAGE_CREST, ACH_RELIC_HARPOON
+    string23 relicString: 0x05B0CFD8, 0xCA0, 0x360, 0x200, 0x58, 0x98; // ACH_RELIC_INCENSE, ACH_RELIC_VILLAGE_CREST, ACH_RELIC_HARPOON
 }
 
 init {
