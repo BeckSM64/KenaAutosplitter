@@ -3,7 +3,8 @@ state("Kena-Win64-Shipping") {
     long startGameFromSave: 0x5BA7AB4;
     byte255 cutsceneFilenameAddress: 0x060E8848, 0x100, 0x88, 0;
     byte255 tutorialCutsceneFilenameAddress: 0x05BA3930, 0x10, 0x88, 0;
-    string23 relicString: 0x05B0CFD8, 0xCA0, 0x360, 0x200, 0x58, 0x98; // ACH_RELIC_INCENSE, ACH_RELIC_VILLAGE_CREST, ACH_RELIC_HARPOON
+    // string23 relicString: 0x05B0CFD8, 0xCA0, 0x360, 0x200, 0x58, 0x98; // ACH_RELIC_INCENSE, ACH_RELIC_VILLAGE_CREST, ACH_RELIC_HARPOON
+    string50 relicString: 0x06172228, 0xE0, 0x308, 0x40, 0x128, 0x68, 0x98 // ACH_RELIC_INCENSE, ACH_RELIC_VILLAGE_CREST, ACH_RELIC_HARPOON
 }
 
 init {
@@ -56,7 +57,7 @@ split {
 
     // Mask Maker
     if (current.relicString != null) {
-        if (current.relicString.Contains("ACH_RELIC_INCENSE") && !vars.didMaskMakerSplit) {
+        if (current.relicString.Contains("INCENSE") && !vars.didMaskMakerSplit) {
             vars.didMaskMakerSplit = true;
             return true;
         }
@@ -64,7 +65,7 @@ split {
 
     // Warrior
     if (current.relicString != null) {
-        if (current.relicString.Contains("ACH_RELIC_VILLAGE_CREST") && !vars.didWarriorSplit) {
+        if (current.relicString.Contains("VILLAGE_CREST") && !vars.didWarriorSplit) {
             vars.didWarriorSplit = true;
             return true;
         }
@@ -79,7 +80,7 @@ split {
 
     // Hunter
     if (current.relicString != null) {
-        if (current.relicString.Contains("ACH_RELIC_HARPOON") && !vars.didHunterSplit) {
+        if (current.relicString.Contains("HARPOON") && !vars.didHunterSplit) {
             vars.didHunterSplit = true;
             return true;
         }
