@@ -10,4 +10,12 @@ The load remover still needs testing, but seems to work. To try it yourself, fol
 - You may also want an extra Timer element that is set to Real Time to run concurrently with the Game Time Timer
 
 # Autosplitter
-The autosplitter is a work in progress. Right now, there is a file for autosplitting the Any% No PMI/VH category. You're welcome to try it, but it currently only works through the Taro's Tree split.
+The autosplitter is a work in progress. Right now, there is a file for autosplitting the Any% No PMI/VH category. The autosplitter currently assumes you have these splits:
+- Sprout
+- Dash
+- Mask Maker
+- Warrior
+- Bow
+- Hunter
+- Toshi
+- Meditate
