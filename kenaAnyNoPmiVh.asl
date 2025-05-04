@@ -1,15 +1,39 @@
 state("Kena-Win64-Shipping") {
+    short startGame: 0x059EECD0, 0x28;
+    long startGameFromSave: 0x5BA7AB4;
     byte255 cutsceneFilenameAddress: 0x060E8848, 0x100, 0x88, 0;
     byte255 tutorialCutsceneFilenameAddress: 0x05BA3930, 0x10, 0x88, 0;
     string23 relicString: 0x05F0C2B0, 0, 0x308, 0x40, 0x120, 0x58, 0x98; // ACH_RELIC_INCENSE, ACH_RELIC_VILLAGE_CREST, ACH_RELIC_HARPOON
 }
 
 init {
+    // Filename variables
     vars.sproutCutsceneFilename = "57-00-30-00-5F-00-52-00-6F-00-74-00-50-00-61-00-72-00-61-00-64-00-65-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32"; // W0_RotParade_PC.bk2
     vars.dashAbilityFilename = "57-00-33-00-5F-00-44-00-61-00-73-00-68-00-41-00-62-00-69-00-6C-00-69-00-74-00-79-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32-00"; // W3_DashAbility_PC.bk2
     vars.toshiFilename = "57-00-33-00-5F-00-54-00-6F-00-73-00-68-00-69-00-44-00-65-00-66-00-65-00-61-00-74-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32-00"; // W3_ToshiDefeat_PC.bk2
     vars.gameCompleteFilename = "57-00-33-00-5F-00-45-00-6E-00-64-00-47-00-61-00-6D-00-65-00-5F-00-50-00-43-00"; // W3_EndGame
     vars.bowTutorialFilename = "42-00-6F-00-77-00-41-00-62-00-69-00-6C-00-69-00-74-00-79-00-5F-00-54-00-75-00-74-00-6F-00-72-00-69-00-61-00-6C-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32-00"; // BowAbility_Tutorial_PC.bk2
+    
+    // Split flags
+    vars.didMaskMakerSplit = false;
+    vars.didWarriorSplit = false;
+    vars.didHunterSplit = false;
+}
+
+start {
+    // Start new game
+    if (current.startGame != -1) {
+        return true;
+    }
+
+    // Start from save to skip cutscene
+    if (current.startGameFromSave == 0x900000018) {
+        return true;
+    }
+}
+
+onReset {
+    // Reset split flags
     vars.didMaskMakerSplit = false;
     vars.didWarriorSplit = false;
     vars.didHunterSplit = false;
