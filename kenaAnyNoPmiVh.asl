@@ -1,5 +1,5 @@
 state("Kena-Win64-Shipping") {
-    short startGame: 0x059EECD0, 0x28;
+    short startGame: 0x059EECD0, 0xA8;
     long startGameFromSave: 0x5BA7AB4;
     byte255 cutsceneFilenameAddress: 0x060E8848, 0x100, 0x88, 0;
     byte255 tutorialCutsceneFilenameAddress: 0x05BA3930, 0x10, 0x88, 0;
@@ -38,6 +38,7 @@ onReset {
     vars.didMaskMakerSplit = false;
     vars.didWarriorSplit = false;
     vars.didHunterSplit = false;
+    vars.didRotGodSplit = false;
 }
 
 split {
@@ -88,7 +89,7 @@ split {
     }
 
     // End Game
-    if (old.cutsceneFilenameAddress != null) {
+    if (old.cutsceneFilenameAddress != null && current.cutsceneFilenameAddress != null) {
         if (BitConverter.ToString(current.cutsceneFilenameAddress).Contains(vars.gameCompleteFilename)) {
             return true;
         }
