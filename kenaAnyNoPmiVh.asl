@@ -3,8 +3,8 @@ state("Kena-Win64-Shipping") {
     long startGameFromSave: 0x5BA7AB4;
     byte255 cutsceneFilenameAddress: 0x060E8848, 0x100, 0x88, 0;
     byte255 tutorialCutsceneFilenameAddress: 0x05BA3930, 0x10, 0x88, 0;
-    // string23 relicString: 0x05B0CFD8, 0xCA0, 0x360, 0x200, 0x58, 0x98; // ACH_RELIC_INCENSE, ACH_RELIC_VILLAGE_CREST, ACH_RELIC_HARPOON
-    string50 relicString: 0x06172228, 0xE0, 0x308, 0x40, 0x128, 0x68, 0x98 // ACH_RELIC_INCENSE, ACH_RELIC_VILLAGE_CREST, ACH_RELIC_HARPOON
+    byte relicCounter: 0x060D4AC0, 0x30, 0x620, 0xE0;
+
 }
 
 init {
@@ -14,7 +14,7 @@ init {
     vars.toshiFilename = "57-00-33-00-5F-00-54-00-6F-00-73-00-68-00-69-00-44-00-65-00-66-00-65-00-61-00-74-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32-00"; // W3_ToshiDefeat_PC.bk2
     vars.gameCompleteFilename = "57-00-33-00-5F-00-45-00-6E-00-64-00-47-00-61-00-6D-00-65-00-5F-00-50-00-43-00"; // W3_EndGame
     vars.bowTutorialFilename = "42-00-6F-00-77-00-41-00-62-00-69-00-6C-00-69-00-74-00-79-00-5F-00-54-00-75-00-74-00-6F-00-72-00-69-00-61-00-6C-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32-00"; // BowAbility_Tutorial_PC.bk2
-    
+
     // Split flags
     vars.didMaskMakerSplit = false;
     vars.didWarriorSplit = false;
@@ -56,19 +56,15 @@ split {
     }
 
     // Mask Maker
-    if (current.relicString != null) {
-        if (current.relicString.Contains("INCENSE") && !vars.didMaskMakerSplit) {
-            vars.didMaskMakerSplit = true;
-            return true;
-        }
+    if (!vars.didMaskMakerSplit && current.relicCounter != null && current.relicCounter == 0x30) {
+        vars.didMaskMakerSplit = true;
+        return true;
     }
 
     // Warrior
-    if (current.relicString != null) {
-        if (current.relicString.Contains("VILLAGE_CREST") && !vars.didWarriorSplit) {
-            vars.didWarriorSplit = true;
-            return true;
-        }
+    if (!vars.didWarriorSplit && current.relicCounter != null && current.relicCounter == 0x31) {
+        vars.didWarriorSplit = true;
+        return true;
     }
 
     // Bow
@@ -79,11 +75,9 @@ split {
     }
 
     // Hunter
-    if (current.relicString != null) {
-        if (current.relicString.Contains("HARPOON") && !vars.didHunterSplit) {
-            vars.didHunterSplit = true;
-            return true;
-        }
+    if (!vars.didHunterSplit && current.relicCounter != null && current.relicCounter == 0x33) {
+        vars.didHunterSplit = true;
+        return true;
     }
 
     // Toshi
