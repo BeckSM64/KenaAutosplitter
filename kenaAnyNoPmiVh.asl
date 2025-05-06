@@ -1,10 +1,8 @@
 state("Kena-Win64-Shipping") {
-    short startGame: 0x059EECD0, 0xA8;
     long startGameFromSave: 0x5BA7AB4;
     byte255 cutsceneFilenameAddress: 0x060E8848, 0x100, 0x88, 0;
     byte255 tutorialCutsceneFilenameAddress: 0x05BA3930, 0x10, 0x88, 0;
     byte relicCounter: 0x060D4AC0, 0x30, 0x620, 0xE0;
-
 }
 
 init {
@@ -16,16 +14,15 @@ init {
     vars.bowTutorialFilename = "42-00-6F-00-77-00-41-00-62-00-69-00-6C-00-69-00-74-00-79-00-5F-00-54-00-75-00-74-00-6F-00-72-00-69-00-61-00-6C-00-5F-00-50-00-43-00-2E-00-62-00-6B-00-32-00"; // BowAbility_Tutorial_PC.bk2
 
     // Split flags
+    vars.didSproutSplit = false;
+    vars.didDashSplit = false;
     vars.didMaskMakerSplit = false;
     vars.didWarriorSplit = false;
     vars.didHunterSplit = false;
+    vars.didToshiSplit = false;
 }
 
 start {
-    // Start new game
-    if (current.startGame != -1) {
-        return true;
-    }
 
     // Start from save to skip cutscene
     if (current.startGameFromSave == 0x900000018) {
@@ -35,23 +32,28 @@ start {
 
 onReset {
     // Reset split flags
+    vars.didSproutSplit = false;
+    vars.didDashSplit = false;
     vars.didMaskMakerSplit = false;
     vars.didWarriorSplit = false;
+    vars.didBowSplit = false;
     vars.didHunterSplit = false;
-    vars.didRotGodSplit = false;
+    vars.didToshiSplit = false;
 }
 
 split {
     // Sprout
-    if (old.cutsceneFilenameAddress != null) {
+    if (!vars.didSproutSplit && old.cutsceneFilenameAddress != null) {
         if (BitConverter.ToString(old.cutsceneFilenameAddress).Contains(vars.sproutCutsceneFilename) && (current.cutsceneFilenameAddress == null || !BitConverter.ToString(current.cutsceneFilenameAddress).Contains(vars.sproutCutsceneFilename))) {
+            vars.didSproutSplit = true;
             return true;
         }
     }
 
     // Dash
-    if (old.cutsceneFilenameAddress != null) {
+    if (!vars.didDashSplit && vars.didSproutSplit && old.cutsceneFilenameAddress != null) {
         if (BitConverter.ToString(old.cutsceneFilenameAddress).Contains(vars.dashAbilityFilename) && (current.cutsceneFilenameAddress == null || !BitConverter.ToString(current.cutsceneFilenameAddress).Contains(vars.dashAbilityFilename))) {
+            vars.didDashSplit = true;
             return true;
         }
     }
@@ -71,6 +73,7 @@ split {
     // Bow
     if (old.tutorialCutsceneFilenameAddress != null) {
         if (BitConverter.ToString(old.tutorialCutsceneFilenameAddress).Contains(vars.bowTutorialFilename) && (current.tutorialCutsceneFilenameAddress == null || !BitConverter.ToString(current.tutorialCutsceneFilenameAddress).Contains(vars.bowTutorialFilename))) {
+            vars.didBowSplit = true;
             return true;
         }
     }
@@ -82,8 +85,9 @@ split {
     }
 
     // Toshi
-    if (old.cutsceneFilenameAddress != null) {
+    if (!vars.didToshiSplit && old.cutsceneFilenameAddress != null) {
         if (BitConverter.ToString(old.cutsceneFilenameAddress).Contains(vars.toshiFilename) && (current.cutsceneFilenameAddress == null || !BitConverter.ToString(current.cutsceneFilenameAddress).Contains(vars.toshiFilename))) {
+            vars.didToshiSplit = true;
             return true;
         }
     }
