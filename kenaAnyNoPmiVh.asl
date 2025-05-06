@@ -2,7 +2,7 @@ state("Kena-Win64-Shipping") {
     long startGameFromSave: 0x5BA7AB4;
     byte255 cutsceneFilenameAddress: 0x060E8848, 0x100, 0x88, 0;
     byte255 tutorialCutsceneFilenameAddress: 0x05BA3930, 0x10, 0x88, 0;
-    byte relicCounter: 0x060D4AC0, 0x30, 0x620, 0xE0;
+    byte relicCounter: 0x060D4AC0, 0x30, 0x620, 0xC0;
 }
 
 init {
@@ -59,13 +59,13 @@ split {
     }
 
     // Mask Maker
-    if (!vars.didMaskMakerSplit && current.relicCounter != null && current.relicCounter == 0x30) {
+    if (!vars.didMaskMakerSplit && current.relicCounter != null && current.relicCounter == 0x32) {
         vars.didMaskMakerSplit = true;
         return true;
     }
 
     // Warrior
-    if (!vars.didWarriorSplit && current.relicCounter != null && current.relicCounter == 0x31) {
+    if (!vars.didWarriorSplit && current.relicCounter != null && current.relicCounter == 0x33) {
         vars.didWarriorSplit = true;
         return true;
     }
@@ -79,7 +79,7 @@ split {
     }
 
     // Hunter
-    if (!vars.didHunterSplit && current.relicCounter != null && current.relicCounter == 0x33) {
+    if (!vars.didHunterSplit && current.relicCounter != null && current.relicCounter == 0x35) {
         vars.didHunterSplit = true;
         return true;
     }
