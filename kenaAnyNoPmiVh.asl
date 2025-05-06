@@ -20,6 +20,8 @@ init {
     vars.didWarriorSplit = false;
     vars.didHunterSplit = false;
     vars.didToshiSplit = false;
+
+    vars.initialRelicCount = null;
 }
 
 start {
@@ -28,6 +30,21 @@ start {
     if (current.startGameFromSave == 0x900000018) {
         return true;
     }
+}
+
+update {
+    if (vars.initialRelicCount == null && current.relicCounter != 0) {
+        vars.initialRelicCount = current.relicCounter;
+        print(vars.initialRelicCount.ToString());
+    }
+    if (vars.initialRelicCount != null) {
+        print(vars.initialRelicCount.ToString());
+    }
+}
+
+onStart {
+    // Ensure this is null
+    vars.initialRelicCount = null;
 }
 
 onReset {
@@ -39,6 +56,7 @@ onReset {
     vars.didBowSplit = false;
     vars.didHunterSplit = false;
     vars.didToshiSplit = false;
+    vars.initialRelicCount = null;
 }
 
 split {
@@ -59,13 +77,13 @@ split {
     }
 
     // Mask Maker
-    if (!vars.didMaskMakerSplit && current.relicCounter != null && current.relicCounter == 0x32) {
+    if (!vars.didMaskMakerSplit && current.relicCounter != null && current.relicCounter == (vars.initialRelicCount + 1)) {
         vars.didMaskMakerSplit = true;
         return true;
     }
 
     // Warrior
-    if (!vars.didWarriorSplit && current.relicCounter != null && current.relicCounter == 0x33) {
+    if (!vars.didWarriorSplit && current.relicCounter != null && current.relicCounter == (vars.initialRelicCount + 2)) {
         vars.didWarriorSplit = true;
         return true;
     }
@@ -79,7 +97,7 @@ split {
     }
 
     // Hunter
-    if (!vars.didHunterSplit && current.relicCounter != null && current.relicCounter == 0x35) {
+    if (!vars.didHunterSplit && current.relicCounter != null && current.relicCounter == (vars.initialRelicCount + 4)) {
         vars.didHunterSplit = true;
         return true;
     }
