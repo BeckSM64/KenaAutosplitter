@@ -33,10 +33,18 @@ start {
 }
 
 update {
-    if (vars.initialRelicCount == 0 && current.relicCounter != 0) {
+    if (vars.initialRelicCount == null && current.relicCounter != 0) {
         vars.initialRelicCount = current.relicCounter;
         print(vars.initialRelicCount.ToString());
     }
+    if (vars.initialRelicCount != null) {
+        print(vars.initialRelicCount.ToString());
+    }
+}
+
+onStart {
+    // Ensure this is null
+    vars.initialRelicCount = null;
 }
 
 onReset {
