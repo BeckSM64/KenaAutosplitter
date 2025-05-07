@@ -19,3 +19,6 @@ The autosplitter is a work in progress. Right now, there is a file for autosplit
 - Hunter
 - Toshi
 - Meditate
+
+# Credits
+Thanks to RIN RIN TELEPHON for all the help testing.
