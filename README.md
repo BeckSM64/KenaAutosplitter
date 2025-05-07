@@ -10,7 +10,7 @@ The load remover still needs testing, but seems to work. To try it yourself, fol
 - You may also want an extra Timer element that is set to Real Time to run concurrently with the Game Time Timer
 
 # Autosplitter
-The autosplitter is a work in progress. Right now, there is a file for autosplitting the Any% No PMI/VH category. The autosplitter currently assumes you have these splits:
+Right now, there is only an autosplitter for the Any% No PMI/VH category. The autosplitter currently assumes you have these splits:
 - Sprout
 - Dash
 - Mask Maker
